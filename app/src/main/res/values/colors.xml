@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#0D9488</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#A7F3D0</color>
+    <color name="on_primary_container">#064E3B</color>
+    
+    <color name="secondary">#6366F1</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#E0E7FF</color>
+    <color name="on_secondary_container">#3730A3</color>
+    
+    <color name="background">#F8FAFC</color>
+    <color name="on_background">#0F172A</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#0F172A</color>
+    
+    <color name="error">#EF4444</color>
+    <color name="on_error">#FFFFFF</color>
+    
+    <!-- Risk Level Colors -->
+    <color name="glucose_normal">#22C55E</color>
+    <color name="glucose_borderline">#F59E0B</color>
+    <color name="glucose_high">#EF4444</color>
+    <color name="glucose_low">#EF4444</color>
+</resources>

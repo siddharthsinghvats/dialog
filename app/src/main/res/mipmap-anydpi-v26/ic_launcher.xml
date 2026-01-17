@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/primary"/>
+    <foreground>
+        <inset android:inset="25%">
+            <vector
+                android:width="108dp"
+                android:height="108dp"
+                android:viewportWidth="24"
+                android:viewportHeight="24">
+                <!-- Blood drop icon representing glucose/diabetes -->
+                <path
+                    android:fillColor="#FFFFFF"
+                    android:pathData="M12,2C12,2 4,10 4,15C4,19.4 7.6,23 12,23C16.4,23 20,19.4 20,15C20,10 12,2 12,2M12,21C8.7,21 6,18.3 6,15C6,11.5 10.2,6.1 12,3.8C13.8,6.1 18,11.5 18,15C18,18.3 15.3,21 12,21M12,19C10.3,19 9,17.7 9,16C9,14.1 11.1,11.5 12,10.4C12.9,11.5 15,14.1 15,16C15,17.7 13.7,19 12,19Z"/>
+            </vector>
+        </inset>
+    </foreground>
+</adaptive-icon>

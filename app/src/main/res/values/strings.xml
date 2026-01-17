@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DiaLog</string>
+    
+    <!-- Navigation -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_history">Records</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">Profiles</string>
+    <string name="add_profile">Add Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_age">Age</string>
+    <string name="diabetes_type">Diabetes Type</string>
+    <string name="target_glucose">Target Glucose Range</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="select_profile">Select Profile</string>
+    
+    <!-- Diabetes Types -->
+    <string name="type_1">Type 1</string>
+    <string name="type_2">Type 2</string>
+    <string name="gestational">Gestational</string>
+    <string name="prediabetic">Pre-diabetic</string>
+    
+    <!-- Records -->
+    <string name="add_record">Add Reading</string>
+    <string name="edit_record">Edit Reading</string>
+    <string name="glucose_level">Glucose Level</string>
+    <string name="glucose_unit">mg/dL</string>
+    <string name="measurement_label">Measurement Time</string>
+    <string name="notes">Notes (optional)</string>
+    <string name="measured_at">Measured At</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    
+    <!-- Quick Time Buttons -->
+    <string name="now">Now</string>
+    <string name="min_ago_15">15 min ago</string>
+    <string name="min_ago_30">30 min ago</string>
+    <string name="hour_ago_1">1 hour ago</string>
+    
+    <!-- Filters -->
+    <string name="filter">Filter</string>
+    <string name="filter_by_date">Filter by Date</string>
+    <string name="filter_by_label">Filter by Label</string>
+    <string name="filter_by_risk">Filter by Risk Level</string>
+    <string name="clear_filters">Clear Filters</string>
+    <string name="apply_filters">Apply Filters</string>
+    
+    <!-- Risk Levels -->
+    <string name="risk_normal">Normal</string>
+    <string name="risk_borderline">Borderline</string>
+    <string name="risk_high">High</string>
+    <string name="risk_low">Low</string>
+    
+    <!-- Dashboard -->
+    <string name="latest_reading">Latest Reading</string>
+    <string name="no_readings">No readings yet</string>
+    <string name="add_first_reading">Add your first reading</string>
+    <string name="today">Today</string>
+    <string name="this_week">This Week</string>
+    <string name="average">Average</string>
+    
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="manage_labels">Manage Labels</string>
+    <string name="add_custom_label">Add Custom Label</string>
+    
+    <!-- General -->
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="retry">Retry</string>
+    <string name="no_data">No data available</string>
+    <string name="confirm_delete">Are you sure you want to delete?</string>
+</resources>
