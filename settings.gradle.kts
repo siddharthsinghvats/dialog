@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DiaLog"
+rootProject.name = "SugarTrack"
 include(":app")

@@ -115,6 +115,18 @@ class DiaLogRepository(
         return recordDao.getAverageGlucose(profileId, startOfWeek, now)
     }
     
+    /** Get average glucose for date range */
+    suspend fun getAverageGlucose(profileId: Long, startTime: Long, endTime: Long): Double? =
+        recordDao.getAverageGlucose(profileId, startTime, endTime)
+    
+    /** Get max glucose for date range */
+    suspend fun getMaxGlucose(profileId: Long, startTime: Long, endTime: Long): Int? =
+        recordDao.getMaxGlucose(profileId, startTime, endTime)
+    
+    /** Get min glucose for date range */
+    suspend fun getMinGlucose(profileId: Long, startTime: Long, endTime: Long): Int? =
+        recordDao.getMinGlucose(profileId, startTime, endTime)
+    
     /** Add a new glucose record */
     suspend fun addRecord(record: GlucoseRecord): Long =
         recordDao.insertRecord(record)
@@ -165,7 +177,7 @@ class DiaLogRepository(
     
     // ==================== HELPER FUNCTIONS ====================
     
-    private fun getStartOfDay(): Long {
+    fun getStartOfDay(): Long {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
@@ -174,7 +186,7 @@ class DiaLogRepository(
         return calendar.timeInMillis
     }
     
-    private fun getEndOfDay(): Long {
+    fun getEndOfDay(): Long {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, 23)
         calendar.set(Calendar.MINUTE, 59)
@@ -183,9 +195,19 @@ class DiaLogRepository(
         return calendar.timeInMillis
     }
     
-    private fun getStartOfWeek(): Long {
+    fun getStartOfWeek(): Long {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.timeInMillis
+    }
+    
+    fun getStartOfMonth(): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)

@@ -36,8 +36,7 @@ fun DashboardScreen(
     repository: DiaLogRepository,
     onNavigateToAddRecord: () -> Unit,
     onNavigateToHistory: () -> Unit,
-    onNavigateToProfiles: () -> Unit,
-    onNavigateToGraphs: () -> Unit
+    onNavigateToProfiles: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     
@@ -76,19 +75,13 @@ fun DashboardScreen(
                 title = {
                     Column {
                         Text(
-                            text = "DiaLog",
+                            text = "SugarTrack",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold
                         )
                     }
                 },
                 actions = {
-                    IconButton(onClick = onNavigateToGraphs) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ShowChart,
-                            contentDescription = "Graphs"
-                        )
-                    }
                     // Profile selector
                     ProfileSelector(
                         profile = selectedProfile,
@@ -141,7 +134,7 @@ fun DashboardScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "👋 Welcome to DiaLog!",
+                            text = "👋 Welcome to SugarTrack!",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )

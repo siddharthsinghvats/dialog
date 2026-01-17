@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dialog.app.data.repository.DiaLogRepository
+import com.dialog.app.ui.screens.analytics.AnalyticsScreen
 import com.dialog.app.ui.screens.dashboard.DashboardScreen
-import com.dialog.app.ui.screens.graphs.GraphsScreen
 import com.dialog.app.ui.screens.history.HistoryScreen
 import com.dialog.app.ui.screens.profile.AddEditProfileScreen
 import com.dialog.app.ui.screens.profile.ProfileListScreen
@@ -63,8 +63,7 @@ fun NavGraph(
                 repository = repository,
                 onNavigateToAddRecord = { navController.navigate(Screen.AddRecord.route) },
                 onNavigateToHistory = { navController.navigate(Screen.History.route) },
-                onNavigateToProfiles = { navController.navigate(Screen.Profiles.route) },
-                onNavigateToGraphs = { navController.navigate(Screen.Graphs.route) }
+                onNavigateToProfiles = { navController.navigate(Screen.Profiles.route) }
             )
         }
         
@@ -77,11 +76,10 @@ fun NavGraph(
             )
         }
 
-        // Graphs
-        composable(Screen.Graphs.route) {
-            GraphsScreen(
-                repository = repository,
-                onNavigateBack = { navController.popBackStack() }
+        // Analytics
+        composable(Screen.Analytics.route) {
+            AnalyticsScreen(
+                repository = repository
             )
         }
         

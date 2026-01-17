@@ -69,6 +69,12 @@ fun MainScreen(
             unselectedIcon = Icons.Outlined.AddCircle
         ),
         BottomNavItemData(
+            route = Screen.Analytics.route,
+            label = "Analytics",
+            selectedIcon = Icons.Filled.BarChart,
+            unselectedIcon = Icons.Outlined.BarChart
+        ),
+        BottomNavItemData(
             route = Screen.History.route,
             label = "History",
             selectedIcon = Icons.Filled.History,
@@ -86,6 +92,7 @@ fun MainScreen(
     val showBottomNav = currentDestination?.route in listOf(
         Screen.Dashboard.route,
         Screen.AddRecord.route,
+        Screen.Analytics.route,
         Screen.History.route,
         Screen.Profiles.route
     )

@@ -129,6 +129,28 @@ interface RecordDao {
     @Query("SELECT COUNT(*) FROM glucose_records WHERE profileId = :profileId")
     fun getRecordCount(profileId: Long): Flow<Int>
     
+    /**
+     * Get max glucose for a profile within a date range.
+     */
+    @Query("""
+        SELECT MAX(glucoseLevel) FROM glucose_records 
+        WHERE profileId = :profileId 
+        AND measuredAt >= :startTime 
+        AND measuredAt <= :endTime
+    """)
+    suspend fun getMaxGlucose(profileId: Long, startTime: Long, endTime: Long): Int?
+    
+    /**
+     * Get min glucose for a profile within a date range.
+     */
+    @Query("""
+        SELECT MIN(glucoseLevel) FROM glucose_records 
+        WHERE profileId = :profileId 
+        AND measuredAt >= :startTime 
+        AND measuredAt <= :endTime
+    """)
+    suspend fun getMinGlucose(profileId: Long, startTime: Long, endTime: Long): Int?
+    
     // ==================== INSERTS ====================
     
     /**

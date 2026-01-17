@@ -10,7 +10,7 @@ sealed class Screen(val route: String) {
     object AddRecord : Screen("add_record")
     object History : Screen("history")
     object Profiles : Screen("profiles")
-    object Graphs : Screen("graphs")
+    object Analytics : Screen("analytics")
     
     // Secondary screens (without bottom nav)
     object AddProfile : Screen("add_profile")
@@ -38,7 +38,7 @@ enum class BottomNavItem(
 ) {
     DASHBOARD(Screen.Dashboard, "Dashboard", "डैशबोर्ड", "dashboard"),
     ADD(Screen.AddRecord, "Add", "जोड़ें", "add_circle"),
-    GRAPHS(Screen.Graphs, "Graphs", "ग्राफ", "show_chart"),
-    HISTORY(Screen.History, "Records", "रिकॉर्ड्स", "history"), // Previously "History" / "इतिहास"
+    ANALYTICS(Screen.Analytics, "Analytics", "विश्लेषण", "bar_chart"),
+    HISTORY(Screen.History, "Records", "रिकॉर्ड्स", "history"),
     PROFILES(Screen.Profiles, "Profile", "प्रोफाइल", "person")
 }

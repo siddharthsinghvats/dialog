@@ -13,24 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.dialog.app.data.model.GlucoseRecordWithLabel
-import com.dialog.app.ui.theme.GlucoseHigh
-import com.dialog.app.ui.theme.GlucoseLow
-import com.dialog.app.ui.theme.GlucoseNormal
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
-import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import java.text.SimpleDateFormat
@@ -38,7 +32,8 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * High quality trend graph showing glucose levels over time.
+ * Compact mini-graph for dashboard showing glucose trend at a glance.
+ * Simplified styling for quick overview.
  */
 @Composable
 fun GlucoseTrendGraph(
@@ -47,8 +42,7 @@ fun GlucoseTrendGraph(
 ) {
     if (records.isEmpty()) return
 
-    // Prepare data for chart
-    // Vico expects entries sorted by x-axis
+    // Prepare data for chart - sorted by measurement time
     val sortedRecords = remember(records) {
         records.sortedBy { it.record.measuredAt }
     }
@@ -56,14 +50,14 @@ fun GlucoseTrendGraph(
     val chartEntryModel = remember(sortedRecords) {
         val entries = sortedRecords.mapIndexed { index, record ->
             FloatEntry(
-                x = index.toFloat(), // Use index for X-axis to keep equal spacing
+                x = index.toFloat(),
                 y = record.record.glucoseLevel.toFloat()
             )
         }
         entryModelOf(entries)
     }
 
-    // Date formatter for X-axis
+    // Simple date formatter for X-axis
     val horizontalAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
         val index = value.toInt()
         if (index >= 0 && index < sortedRecords.size) {
@@ -77,24 +71,24 @@ fun GlucoseTrendGraph(
 
     // Colors
     val lineColor = MaterialTheme.colorScheme.primary
-    val fillColorStart = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-    val fillColorEnd = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+    val fillColorStart = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+    val fillColorEnd = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(12.dp)
         ) {
             Text(
                 text = "Glucose Trend",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             
             Chart(
@@ -118,7 +112,7 @@ fun GlucoseTrendGraph(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(120.dp)
             )
         }
     }
