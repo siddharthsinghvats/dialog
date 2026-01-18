@@ -153,52 +153,10 @@ fun DashboardScreen(
                     }
                 }
             } else {
-                // Latest Reading Card
-                AnimatedContent(
-                    targetState = latestRecord,
-                    transitionSpec = {
-                        fadeIn() + slideInVertically() togetherWith fadeOut() + slideOutVertically()
-                    },
-                    label = "latest_reading"
-                ) { record ->
-                    if (record != null) {
-                        val riskLevel = selectedProfile!!.getRiskLevel(record.record.glucoseLevel)
-                        GlucoseDisplayCard(
-                            glucoseLevel = record.record.glucoseLevel,
-                            riskLevel = riskLevel,
-                            labelName = null // Hidden as requested by user
-                        )
-                    } else {
-                        EmptyState(
-                            title = "No readings yet",
-                            subtitle = "Tap the + button to add your first reading"
-                        )
-                    }
-                }
-                
                 // Trend Graph (only if we have records)
                 if (recentRecords.isNotEmpty()) {
                     GlucoseTrendGraph(
                         records = recentRecords.reversed() // Reverse to show oldest to newest left-to-right
-                    )
-                }
-                
-                // Quick Stats Row
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    StatCard(
-                        title = "Today",
-                        value = todayAverage?.let { "%.0f".format(it) } ?: "--",
-                        subtitle = "$todayCount readings",
-                        modifier = Modifier.weight(1f)
-                    )
-                    StatCard(
-                        title = "This Week",
-                        value = weekAverage?.let { "%.0f".format(it) } ?: "--",
-                        subtitle = "Average mg/dL",
-                        modifier = Modifier.weight(1f)
                     )
                 }
                 

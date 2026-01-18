@@ -32,12 +32,24 @@ import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
+import com.patrykandpatrick.vico.compose.m3.style.m3ChartStyle
+import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
+import com.patrykandpatrick.vico.core.marker.Marker
+import com.patrykandpatrick.vico.compose.component.shape.roundedCornerShape
+import com.patrykandpatrick.vico.compose.component.textComponent
+import com.patrykandpatrick.vico.compose.component.lineComponent
+import com.patrykandpatrick.vico.compose.component.overlayingComponent
+import com.patrykandpatrick.vico.compose.component.shapeComponent
+import com.patrykandpatrick.vico.compose.dimensions.dimensionsOf
+import com.patrykandpatrick.vico.compose.marker.markerComponent
+import com.patrykandpatrick.vico.core.component.marker.MarkerComponent
+import com.patrykandpatrick.vico.core.component.shape.Shapes
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -399,24 +411,23 @@ private fun AnalyticsChart(
         entryModelOf(entries)
     }
     
-    // Date format based on time period
-    val dateFormat = remember(timePeriod) {
-        if (timePeriod == TimePeriod.WEEKLY) {
-            SimpleDateFormat("EEE", Locale.getDefault())
-        } else {
-            SimpleDateFormat("dd/MM", Locale.getDefault())
-        }
+    // Time format to show time of day instead of day name
+    val timeFormat = remember {
+        SimpleDateFormat("HH:mm", Locale.getDefault())
     }
     
     val horizontalAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
         val index = value.toInt()
         if (index >= 0 && index < sortedRecords.size) {
             val date = Date(sortedRecords[index].record.measuredAt)
-            dateFormat.format(date)
+            timeFormat.format(date)
         } else {
             ""
         }
     }
+    
+    // Interactive marker for tap/touch
+    val marker = rememberMarker()
     
     val lineColor = MaterialTheme.colorScheme.primary
     val fillColorStart = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
@@ -454,30 +465,33 @@ private fun AnalyticsChart(
             
             val chartScrollState = rememberChartScrollState()
             
-            Chart(
-                chart = lineChart(
-                    lines = listOf(
-                        LineChart.LineSpec(
-                            lineColor = lineColor.toArgb(),
-                            lineBackgroundShader = DynamicShaders.fromBrush(
-                                Brush.verticalGradient(
-                                    listOf(fillColorStart, fillColorEnd)
+            ProvideChartStyle(m3ChartStyle()) {
+                Chart(
+                    chart = lineChart(
+                        lines = listOf(
+                            LineChart.LineSpec(
+                                lineColor = lineColor.toArgb(),
+                                lineBackgroundShader = DynamicShaders.fromBrush(
+                                    Brush.verticalGradient(
+                                        listOf(fillColorStart, fillColorEnd)
+                                    )
                                 )
                             )
                         )
-                    )
-                ),
-                model = chartEntryModel,
-                startAxis = rememberStartAxis(),
-                bottomAxis = rememberBottomAxis(
-                    valueFormatter = horizontalAxisValueFormatter,
-                    guideline = null
-                ),
-                chartScrollState = chartScrollState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(240.dp)
-            )
+                    ),
+                    model = chartEntryModel,
+                    startAxis = rememberStartAxis(),
+                    bottomAxis = rememberBottomAxis(
+                        valueFormatter = horizontalAxisValueFormatter,
+                        guideline = null
+                    ),
+                    marker = marker,
+                    chartScrollState = chartScrollState,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                )
+            }
         }
     }
 }
@@ -553,4 +567,40 @@ private fun EmptyAnalyticsCard(message: String) {
             )
         }
     }
+}
+
+/**
+ * Creates a marker for interactive chart touch/tap highlighting
+ */
+@Composable
+private fun rememberMarker(): Marker {
+    val labelBackgroundColor = MaterialTheme.colorScheme.surface
+    val labelColor = MaterialTheme.colorScheme.onSurface
+    val indicatorColor = MaterialTheme.colorScheme.primary
+    
+    return markerComponent(
+        label = textComponent(
+            color = labelColor,
+            background = shapeComponent(
+                shape = Shapes.pillShape,
+                color = labelBackgroundColor
+            ),
+            padding = dimensionsOf(8.dp, 4.dp)
+        ),
+        indicator = overlayingComponent(
+            outer = shapeComponent(
+                shape = Shapes.pillShape,
+                color = indicatorColor.copy(alpha = 0.3f)
+            ),
+            inner = shapeComponent(
+                shape = Shapes.pillShape,
+                color = indicatorColor
+            ),
+            innerPaddingAll = 4.dp
+        ),
+        guideline = lineComponent(
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
+            thickness = 1.dp
+        )
+    )
 }

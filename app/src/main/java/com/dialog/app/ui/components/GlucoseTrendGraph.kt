@@ -21,12 +21,22 @@ import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
+import com.patrykandpatrick.vico.compose.m3.style.m3ChartStyle
+import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
+import com.patrykandpatrick.vico.compose.component.textComponent
+import com.patrykandpatrick.vico.compose.component.lineComponent
+import com.patrykandpatrick.vico.compose.component.overlayingComponent
+import com.patrykandpatrick.vico.compose.component.shapeComponent
+import com.patrykandpatrick.vico.compose.dimensions.dimensionsOf
+import com.patrykandpatrick.vico.compose.marker.markerComponent
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
+import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
+import com.patrykandpatrick.vico.core.marker.Marker
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -73,6 +83,9 @@ fun GlucoseTrendGraph(
     val lineColor = MaterialTheme.colorScheme.primary
     val fillColorStart = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
     val fillColorEnd = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
+    
+    // Interactive marker
+    val marker = rememberMarker()
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -91,29 +104,69 @@ fun GlucoseTrendGraph(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             
-            Chart(
-                chart = lineChart(
-                    lines = listOf(
-                        LineChart.LineSpec(
-                            lineColor = lineColor.toArgb(),
-                            lineBackgroundShader = DynamicShaders.fromBrush(
-                                Brush.verticalGradient(
-                                    listOf(fillColorStart, fillColorEnd)
+            ProvideChartStyle(m3ChartStyle()) {
+                Chart(
+                    chart = lineChart(
+                        lines = listOf(
+                            LineChart.LineSpec(
+                                lineColor = lineColor.toArgb(),
+                                lineBackgroundShader = DynamicShaders.fromBrush(
+                                    Brush.verticalGradient(
+                                        listOf(fillColorStart, fillColorEnd)
+                                    )
                                 )
                             )
                         )
-                    )
-                ),
-                model = chartEntryModel,
-                startAxis = rememberStartAxis(),
-                bottomAxis = rememberBottomAxis(
-                    valueFormatter = horizontalAxisValueFormatter,
-                    guideline = null
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-            )
+                    ),
+                    model = chartEntryModel,
+                    startAxis = rememberStartAxis(),
+                    bottomAxis = rememberBottomAxis(
+                        valueFormatter = horizontalAxisValueFormatter,
+                        guideline = null
+                    ),
+                    marker = marker,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                )
+            }
         }
     }
 }
+
+/**
+ * Creates an interactive marker for the chart
+ */
+@Composable
+private fun rememberMarker(): Marker {
+    val labelBackgroundColor = MaterialTheme.colorScheme.surface
+    val labelColor = MaterialTheme.colorScheme.onSurface
+    val indicatorColor = MaterialTheme.colorScheme.primary
+    
+    return markerComponent(
+        label = textComponent(
+            color = labelColor,
+            background = shapeComponent(
+                shape = Shapes.pillShape,
+                color = labelBackgroundColor
+            ),
+            padding = dimensionsOf(8.dp, 4.dp)
+        ),
+        indicator = overlayingComponent(
+            outer = shapeComponent(
+                shape = Shapes.pillShape,
+                color = indicatorColor.copy(alpha = 0.3f)
+            ),
+            inner = shapeComponent(
+                shape = Shapes.pillShape,
+                color = indicatorColor
+            ),
+            innerPaddingAll = 4.dp
+        ),
+        guideline = lineComponent(
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
+            thickness = 1.dp
+        )
+    )
+}
+
